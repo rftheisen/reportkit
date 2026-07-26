@@ -1,0 +1,306 @@
+#!/usr/bin/env python3
+"""Build and validate local-first security assessment reports."""
+
+from __future__ import annotations
+
+import argparse
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+try:
+    import yaml
+except ImportError:
+    sys.exit("PyYAML is required. Install dependencies with: pip install -r requirements.txt")
+
+
+ROOT = Path(__file__).resolve().parents[1]
+TEMPLATE = ROOT / "templates" / "report.html"
+CSS = ROOT / "templates" / "theme.css"
+REQUIRED_METADATA = (
+    "report_title",
+    "report_kicker",
+    "client_name",
+    "assessor_name",
+    "engagement_name",
+    "assessment_dates",
+    "version",
+    "classification",
+    "output_basename",
+)
+VALID_SEVERITIES = {"Critical", "High", "Medium", "Low", "Informational"}
+PLACEHOLDER_RE = re.compile(r"\b(?:TBD|TODO|FIXME|CHANGEME)\b", re.IGNORECASE)
+ABSOLUTE_PATH_RES = (
+    re.compile(r"/home/[A-Za-z0-9._-]+/"),
+    re.compile(r"/Users/[A-Za-z0-9._-]+/"),
+    re.compile(r"[A-Za-z]:\\Users\\[^\\\s]+\\", re.IGNORECASE),
+)
+SENSITIVE_RES = (
+    ("private key", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
+    ("password assignment", re.compile(r"(?i)\b(?:password|passwd|pwd)\s*[:=]\s*[\"']?[^\s<>{}]{6,}")),
+    ("API token", re.compile(r"(?i)\b(?:api[_-]?key|access[_-]?token|auth[_-]?token)\s*[:=]\s*[\"']?[A-Za-z0-9_./+=-]{12,}")),
+    ("32-character flag-like value", re.compile(r"(?i)\b(?:flag|proof|objective)\b[^\n]{0,30}\b[a-f0-9]{32}\b")),
+)
+IMAGE_RE = re.compile(r"!\[[^\]]*\]\((?P<target><[^>]+>|[^)\s]+)(?:\s+[\"'][^\"']*[\"'])?\)")
+FINDING_NAME_RE = re.compile(r"^(F-\d{3})-.+\.md$", re.IGNORECASE)
+
+
+def project_path(value: str) -> Path:
+    project = Path(value).expanduser().resolve()
+    if not project.is_dir():
+        raise SystemExit(f"Project directory not found: {project}")
+    return project
+
+
+def markdown_files(project: Path) -> list[Path]:
+    files = [project / "report.md"]
+    for dirname in ("findings", "appendices"):
+        directory = project / dirname
+        if directory.is_dir():
+            files.extend(sorted(directory.glob("*.md")))
+    return [path for path in files if path.is_file()]
+
+
+def load_metadata(project: Path) -> dict:
+    config = project / "report.yml"
+    if not config.is_file():
+        return {}
+    try:
+        data = yaml.safe_load(config.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        raise SystemExit(f"Invalid YAML in {config}: {exc}") from exc
+    return data if isinstance(data, dict) else {}
+
+
+def relative(path: Path, project: Path) -> str:
+    try:
+        return str(path.relative_to(project))
+    except ValueError:
+        return str(path)
+
+
+def preflight(project: Path, quiet: bool = False) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    config = project / "report.yml"
+    main = project / "report.md"
+
+    if not config.is_file():
+        errors.append("missing report.yml")
+    if not main.is_file():
+        errors.append("missing report.md")
+
+    metadata = load_metadata(project) if config.is_file() else {}
+    for key in REQUIRED_METADATA:
+        if not metadata.get(key):
+            errors.append(f"report.yml: missing required metadata '{key}'")
+
+    finding_ids: dict[str, Path] = {}
+    findings_dir = project / "findings"
+    if findings_dir.is_dir():
+        for finding in sorted(findings_dir.glob("*.md")):
+            match = FINDING_NAME_RE.match(finding.name)
+            if not match:
+                errors.append(f"{relative(finding, project)}: filename must begin with F-NNN-")
+                continue
+            finding_id = match.group(1).upper()
+            if finding_id in finding_ids:
+                errors.append(
+                    f"duplicate {finding_id}: {relative(finding_ids[finding_id], project)} "
+                    f"and {relative(finding, project)}"
+                )
+            finding_ids[finding_id] = finding
+
+    for path in markdown_files(project):
+        text = path.read_text(encoding="utf-8")
+        rel = relative(path, project)
+        for number, line in enumerate(text.splitlines(), start=1):
+            if PLACEHOLDER_RE.search(line):
+                errors.append(f"{rel}:{number}: unresolved placeholder")
+            if any(pattern.search(line) for pattern in ABSOLUTE_PATH_RES):
+                warnings.append(f"{rel}:{number}: absolute workstation path")
+            for label, pattern in SENSITIVE_RES:
+                if pattern.search(line):
+                    warnings.append(f"{rel}:{number}: possible {label}")
+            severity = re.match(r"^\*\*Severity:\*\*\s*(.+?)\s*$", line)
+            if severity and severity.group(1) not in VALID_SEVERITIES:
+                errors.append(f"{rel}:{number}: unknown severity '{severity.group(1)}'")
+
+        for match in IMAGE_RE.finditer(text):
+            target = match.group("target").strip("<>")
+            if re.match(r"^(?:https?|data):", target):
+                continue
+            target = target.split("#", 1)[0]
+            image_path = (path.parent / target).resolve()
+            if not image_path.is_file():
+                errors.append(f"{rel}: missing image '{target}'")
+
+    if not quiet:
+        for item in errors:
+            print(f"ERROR: {item}")
+        for item in warnings:
+            print(f"WARN:  {item}")
+        if errors:
+            print(f"\nPreflight failed: {len(errors)} error(s), {len(warnings)} warning(s)")
+        else:
+            print(f"Preflight passed: {len(warnings)} warning(s)")
+    return errors, warnings
+
+
+def require_commands(commands: tuple[str, ...]) -> None:
+    missing = [command for command in commands if not shutil.which(command)]
+    if missing:
+        raise SystemExit(f"Missing required command(s): {', '.join(missing)}")
+
+
+def assemble(project: Path, destination: Path) -> None:
+    parts: list[str] = []
+    main = project / "report.md"
+    parts.append(main.read_text(encoding="utf-8").rstrip())
+
+    findings = sorted((project / "findings").glob("*.md")) if (project / "findings").is_dir() else []
+    if findings:
+        parts.append('<div class="page-break"></div>\n\n## Detailed Findings')
+        parts.extend(path.read_text(encoding="utf-8").strip() for path in findings)
+
+    appendices = sorted((project / "appendices").glob("*.md")) if (project / "appendices").is_dir() else []
+    if appendices:
+        parts.append('<div class="page-break"></div>\n\n## Appendices')
+        parts.extend(path.read_text(encoding="utf-8").strip() for path in appendices)
+
+    destination.write_text("\n\n".join(parts) + "\n", encoding="utf-8")
+
+
+def build(project: Path) -> None:
+    errors, warnings = preflight(project)
+    if errors:
+        raise SystemExit(1)
+    require_commands(("pandoc", "weasyprint"))
+    metadata = load_metadata(project)
+    basename = str(metadata["output_basename"])
+    if not re.fullmatch(r"[A-Za-z0-9._-]+", basename):
+        raise SystemExit("output_basename may contain only letters, numbers, periods, underscores, and hyphens")
+
+    out_dir = project / "_build"
+    out_dir.mkdir(exist_ok=True)
+    merged = out_dir / f"{basename}.merged.md"
+    html = out_dir / f"{basename}.html"
+    pdf = out_dir / f"{basename}.pdf"
+    assemble(project, merged)
+
+    resource_path = ":".join(
+        str(path)
+        for path in (project, project / "evidence", project / "findings", project / "appendices")
+        if path.exists()
+    )
+    pandoc = [
+        "pandoc",
+        str(merged),
+        "--from=gfm+attributes+fenced_divs+bracketed_spans",
+        "--to=html5",
+        "--standalone",
+        "--wrap=none",
+        f"--template={TEMPLATE}",
+        f"--css={CSS}",
+        "--embed-resources",
+        "--toc",
+        "--toc-depth=2",
+        f"--metadata-file={project / 'report.yml'}",
+        f"--resource-path={resource_path}",
+        f"--output={html}",
+    ]
+    print("\nBuilding self-contained HTML...")
+    subprocess.run(pandoc, check=True)
+    print("Building PDF...")
+    subprocess.run(["weasyprint", "--base-url", str(project), str(html), str(pdf)], check=True)
+    print(f"\nHTML: {html}")
+    print(f"PDF:  {pdf}")
+    if warnings:
+        print(f"Build completed with {len(warnings)} preflight warning(s).")
+
+
+def slugify(title: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    return slug[:64] or "finding"
+
+
+def new_finding(project: Path, title: str, severity: str) -> None:
+    if severity not in VALID_SEVERITIES:
+        raise SystemExit(f"Severity must be one of: {', '.join(sorted(VALID_SEVERITIES))}")
+    directory = project / "findings"
+    directory.mkdir(exist_ok=True)
+    numbers = []
+    for path in directory.glob("F-*.md"):
+        match = re.match(r"F-(\d{3})-", path.name, re.IGNORECASE)
+        if match:
+            numbers.append(int(match.group(1)))
+    finding_id = f"F-{max(numbers, default=0) + 1:03d}"
+    destination = directory / f"{finding_id}-{slugify(title)}.md"
+    severity_class = severity.lower()
+    content = f"""### {finding_id} — {title}
+
+| Field | Value |
+|---|---|
+| Severity | [{severity}]{{.sev .sev-{severity_class}}} |
+| Affected asset | CHANGEME |
+| Status | Open |
+
+#### Description
+
+CHANGEME
+
+#### Impact
+
+CHANGEME
+
+#### Evidence and reproduction
+
+CHANGEME
+
+#### Remediation
+
+CHANGEME
+"""
+    destination.write_text(content, encoding="utf-8")
+    print(destination)
+
+
+def clean(project: Path) -> None:
+    out_dir = project / "_build"
+    if out_dir.is_dir():
+        shutil.rmtree(out_dir)
+        print(f"Removed {out_dir}")
+    else:
+        print(f"Nothing to clean: {out_dir}")
+
+
+def parser() -> argparse.ArgumentParser:
+    arg_parser = argparse.ArgumentParser(prog="reportkit")
+    commands = arg_parser.add_subparsers(dest="command", required=True)
+    for name in ("build", "preflight", "clean"):
+        command = commands.add_parser(name)
+        command.add_argument("project", type=project_path)
+    finding = commands.add_parser("new-finding")
+    finding.add_argument("project", type=project_path)
+    finding.add_argument("title")
+    finding.add_argument("--severity", default="Medium")
+    return arg_parser
+
+
+def main() -> None:
+    args = parser().parse_args()
+    if args.command == "build":
+        build(args.project)
+    elif args.command == "preflight":
+        errors, _ = preflight(args.project)
+        raise SystemExit(1 if errors else 0)
+    elif args.command == "new-finding":
+        new_finding(args.project, args.title, args.severity)
+    elif args.command == "clean":
+        clean(args.project)
+
+
+if __name__ == "__main__":
+    main()

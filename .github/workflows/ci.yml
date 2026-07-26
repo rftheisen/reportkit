@@ -1,0 +1,29 @@
+name: Validate and build example
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes pandoc weasyprint python3-yaml
+      - name: Run preflight
+        run: ./scripts/reportkit preflight examples/fictional-assessment
+      - name: Build example
+        run: ./scripts/reportkit build examples/fictional-assessment
+      - name: Upload generated report
+        uses: actions/upload-artifact@v4
+        with:
+          name: fictional-report
+          path: |
+            examples/fictional-assessment/_build/*.html
+            examples/fictional-assessment/_build/*.pdf

@@ -1,0 +1,19 @@
+---
+lang: en-US
+report_kicker: Security Assessment
+report_title: Report of Findings
+client_name: Northstar Widget Company
+assessor_name: Alex Morgan
+assessor_role: Security Consultant
+engagement_name: External Application Security Assessment
+assessment_dates: 6–10 July 2026
+version: "1.0"
+classification: Confidential
+output_basename: northstar-security-assessment
+metrics:
+  - value: "2"
+    label: validated findings
+  - value: "1"
+    label: high severity
+  - value: "1"
+    label: medium severity

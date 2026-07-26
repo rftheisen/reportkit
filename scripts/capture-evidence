@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Capture consistently named report evidence with ImageMagick.
+
+set -euo pipefail
+
+delay=0
+window_mode="root"
+
+while getopts ":d:w" opt; do
+  case "$opt" in
+    d) delay="$OPTARG" ;;
+    w) window_mode="active" ;;
+    *) echo "Usage: capture-evidence [-w] [-d seconds] PROJECT FINDING-ID DESCRIPTION" >&2; exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+project="${1:?project directory required}"
+finding="${2:?finding ID required}"
+description="${3:?description required}"
+evidence_dir="$project/evidence"
+
+command -v import >/dev/null 2>&1 || {
+  echo "ImageMagick 'import' is required" >&2
+  exit 1
+}
+
+mkdir -p "$evidence_dir"
+finding="${finding^^}"
+description="${description,,}"
+description="${description// /-}"
+description="$(printf '%s' "$description" | tr -cd 'a-z0-9._-')"
+
+existing="$(find "$evidence_dir" -maxdepth 1 -type f -name "${finding}-*.png" | wc -l)"
+sequence="$(printf '%02d' "$((existing + 1))")"
+target="$evidence_dir/${finding}-${sequence}-${description}.png"
+
+if (( delay > 0 )); then
+  echo "Capturing in ${delay}s..."
+  sleep "$delay"
+fi
+
+if [[ "$window_mode" == "active" ]] && command -v xdotool >/dev/null 2>&1; then
+  import -window "$(xdotool getactivewindow)" "$target"
+else
+  import -window root "$target"
+fi
+
+echo "$target"

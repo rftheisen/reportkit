@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="$if(lang)$$lang$$else$en$endif$">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>$report_title$ — $client_name$</title>
+$for(css)$
+  <link rel="stylesheet" href="$css$">
+$endfor$
+  <style>
+    @page {
+      @bottom-left {
+        content: "$client_name$ — $classification$";
+      }
+      @bottom-right {
+        content: "$assessor_name$ · Page " counter(page) " / " counter(pages);
+      }
+    }
+  </style>
+</head>
+<body>
+<section class="cover">
+  <div class="cover-kicker">$report_kicker$</div>
+  <h1 class="cover-title">$report_title$</h1>
+  <div class="cover-client">$client_name$</div>
+  <div class="cover-meta">
+    <strong>Prepared by:</strong> $assessor_name$$if(assessor_role)$ · $assessor_role$$endif$<br>
+    <strong>Engagement:</strong> $engagement_name$<br>
+    <strong>Assessment:</strong> $assessment_dates$ &nbsp;·&nbsp; <strong>Version:</strong> $version$<br>
+    <strong>Classification:</strong> $classification$
+  </div>
+$if(metrics)$
+  <div class="cover-metrics">
+$for(metrics)$
+    <span><strong>$metrics.value$</strong> $metrics.label$</span>
+$endfor$
+  </div>
+$endif$
+</section>
+$if(toc)$
+<section id="toc-page">
+  <h2 class="toc-title">Contents</h2>
+  $table-of-contents$
+</section>
+$endif$
+<main>
+$body$
+</main>
+</body>
+</html>
