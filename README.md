@@ -5,6 +5,9 @@ tests and security assessments. It turns Markdown, YAML metadata, and evidence
 files into a polished HTML and PDF report without requiring a reporting server
 or database.
 
+[View the showcase](https://rftheisen.github.io/reportkit/) ·
+[Download the example PDF](https://rftheisen.github.io/reportkit/downloads/northstar-security-assessment.pdf)
+
 It is intentionally small and opinionated:
 
 - write the narrative and findings in Markdown;
