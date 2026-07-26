@@ -11,7 +11,7 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install document toolchain
         run: |
           sudo apt-get update
@@ -21,7 +21,7 @@ jobs:
       - name: Build example
         run: ./scripts/reportkit build examples/fictional-assessment
       - name: Upload generated report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: fictional-report
           path: |
