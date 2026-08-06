@@ -13,6 +13,8 @@ standard ReportKit document structure.
   magenta, hard-edged warning panels, scan lines, and glitch-like accents.
 - `htb.css` — Hack The Box-inspired operator styling with near-black lab
   consoles, electric green status rails, terminal grids, and sharp brackets.
+  Its cover includes the project author's `assets/ltnbobface.png` operator
+  signature as a small Easter egg.
 
 ## Render a themed report
 

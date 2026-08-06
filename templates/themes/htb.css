@@ -207,6 +207,7 @@ h1.cover-title {
 }
 
 .cover-meta {
+  position: relative;
   width: 110mm;
   padding: 4.5mm 5mm;
   border: 1px solid #344158;
@@ -219,6 +220,21 @@ h1.cover-title {
 }
 
 .cover-meta strong { color: var(--htb-green); }
+
+.cover-meta::after {
+  position: absolute;
+  top: -1mm;
+  right: -43mm;
+  width: 29mm;
+  height: 26mm;
+  border: 1px solid var(--htb-green);
+  background:
+    url("assets/ltnbobface.png") center / contain no-repeat,
+    var(--htb-slate);
+  box-shadow: 5px 5px 0 rgba(159,239,0,.22);
+  content: "";
+  image-rendering: pixelated;
+}
 
 .cover-metrics {
   border: 1px solid rgba(159,239,0,.52);
