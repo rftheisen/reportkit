@@ -1,9 +1,10 @@
 PROJECT ?= examples/fictional-assessment
+THEME ?= default
 
 .PHONY: build preflight new-finding clean
 
 build:
-	./scripts/reportkit build "$(PROJECT)"
+	./scripts/reportkit build "$(PROJECT)" --theme "$(THEME)"
 
 preflight:
 	./scripts/reportkit preflight "$(PROJECT)"

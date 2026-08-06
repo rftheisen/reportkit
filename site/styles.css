@@ -451,6 +451,150 @@ main {
   white-space: nowrap;
 }
 
+.themes-section {
+  position: relative;
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(600px 360px at 92% 5%, rgba(0,184,217,.09), transparent 68%),
+    #f7fafc;
+}
+
+.themes-heading { align-items: center; }
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.theme-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 16px 35px rgba(5,21,43,.08);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.theme-card:hover {
+  box-shadow: 0 24px 44px rgba(5,21,43,.14);
+  transform: translateY(-5px);
+}
+
+.theme-preview {
+  position: relative;
+  display: block;
+  height: 305px;
+  overflow: hidden;
+  background: #0a1729;
+}
+
+.theme-preview::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40%;
+  background: linear-gradient(transparent, rgba(4,12,25,.33));
+  content: "";
+  pointer-events: none;
+}
+
+.theme-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform .35s ease;
+}
+
+.theme-card:hover .theme-preview img { transform: scale(1.025); }
+
+.theme-card-body { padding: 23px; }
+
+.theme-card-body > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.theme-number {
+  color: #8895a5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+
+.theme-label {
+  padding: 4px 8px;
+  border-radius: 99px;
+  background: #eafafd;
+  color: #087b91;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.theme-card h3 {
+  margin: 18px 0 8px;
+  font-size: 20px;
+  letter-spacing: -.025em;
+}
+
+.theme-card p {
+  min-height: 66px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.theme-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 21px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.theme-links a {
+  color: #087b91;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.theme-links a::after { content: " ↗"; }
+
+.theme-halo .theme-label { background: #e8f5ec; color: #17603c; }
+.theme-eight-bit .theme-label { background: #f1eaff; color: #5d2da0; }
+.theme-cyberpunk .theme-label { background: #eff7a9; color: #242a14; }
+
+.theme-command {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.theme-command span {
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.theme-command code {
+  padding: 10px 13px;
+  border: 1px solid #c9dbe6;
+  border-radius: 8px;
+  background: var(--white);
+  color: #16445b;
+  font-size: 12px;
+}
+
 .features-section {
   border-block: 1px solid var(--line);
   background: var(--panel);
@@ -643,6 +787,7 @@ footer {
   .proof-grid div:nth-child(2) { border-right: 1px solid var(--line); }
   .section-heading { grid-template-columns: 1fr; gap: 24px; }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .theme-grid { grid-template-columns: repeat(2, 1fr); }
   .quickstart { grid-template-columns: 1fr; gap: 50px; }
 }
 
@@ -687,7 +832,10 @@ footer {
   .proof-grid { grid-template-columns: 1fr; }
   .proof-grid div { min-height: 84px; border-right: 1px solid var(--line); }
   .section { padding-block: 82px; }
-  .workflow-grid, .features-grid { grid-template-columns: 1fr; }
+  .workflow-grid, .features-grid, .theme-grid { grid-template-columns: 1fr; }
+  .theme-preview { height: 430px; }
+  .theme-command { align-items: stretch; flex-direction: column; }
+  .theme-command code { overflow-x: auto; white-space: nowrap; }
   .section-heading h2, .quickstart h2, .cta h2 { font-size: 36px; }
   .cta { min-height: 470px; align-items: flex-start; flex-direction: column; justify-content: center; gap: 45px; }
   .cta-actions { align-items: flex-start; }

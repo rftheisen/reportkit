@@ -19,6 +19,7 @@ except ImportError:
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "templates" / "report.html"
 CSS = ROOT / "templates" / "theme.css"
+THEMES_DIR = ROOT / "templates" / "themes"
 REQUIRED_METADATA = (
     "report_title",
     "report_kicker",
@@ -173,7 +174,14 @@ def assemble(project: Path, destination: Path) -> None:
     destination.write_text("\n\n".join(parts) + "\n", encoding="utf-8")
 
 
-def build(project: Path) -> None:
+def available_themes() -> dict[str, Path | None]:
+    themes: dict[str, Path | None] = {"default": None}
+    if THEMES_DIR.is_dir():
+        themes.update({path.stem: path for path in sorted(THEMES_DIR.glob("*.css"))})
+    return themes
+
+
+def build(project: Path, theme: str = "default") -> None:
     errors, warnings = preflight(project)
     if errors:
         raise SystemExit(1)
@@ -182,12 +190,16 @@ def build(project: Path) -> None:
     basename = str(metadata["output_basename"])
     if not re.fullmatch(r"[A-Za-z0-9._-]+", basename):
         raise SystemExit("output_basename may contain only letters, numbers, periods, underscores, and hyphens")
+    themes = available_themes()
+    if theme not in themes:
+        raise SystemExit(f"Unknown theme '{theme}'. Available themes: {', '.join(themes)}")
+    output_basename = basename if theme == "default" else f"{basename}-{theme}"
 
     out_dir = project / "_build"
     out_dir.mkdir(exist_ok=True)
-    merged = out_dir / f"{basename}.merged.md"
-    html = out_dir / f"{basename}.html"
-    pdf = out_dir / f"{basename}.pdf"
+    merged = out_dir / f"{output_basename}.merged.md"
+    html = out_dir / f"{output_basename}.html"
+    pdf = out_dir / f"{output_basename}.pdf"
     assemble(project, merged)
 
     resource_path = ":".join(
@@ -211,6 +223,8 @@ def build(project: Path) -> None:
         f"--resource-path={resource_path}",
         f"--output={html}",
     ]
+    if themes[theme] is not None:
+        pandoc.insert(pandoc.index("--embed-resources"), f"--css={themes[theme]}")
     print("\nBuilding self-contained HTML...")
     subprocess.run(pandoc, check=True)
     print("Building PDF...")
@@ -279,7 +293,15 @@ def clean(project: Path) -> None:
 def parser() -> argparse.ArgumentParser:
     arg_parser = argparse.ArgumentParser(prog="reportkit")
     commands = arg_parser.add_subparsers(dest="command", required=True)
-    for name in ("build", "preflight", "clean"):
+    build_command = commands.add_parser("build")
+    build_command.add_argument("project", type=project_path)
+    build_command.add_argument(
+        "--theme",
+        choices=tuple(available_themes()),
+        default="default",
+        help="report style (default: %(default)s)",
+    )
+    for name in ("preflight", "clean"):
         command = commands.add_parser(name)
         command.add_argument("project", type=project_path)
     finding = commands.add_parser("new-finding")
@@ -292,7 +314,7 @@ def parser() -> argparse.ArgumentParser:
 def main() -> None:
     args = parser().parse_args()
     if args.command == "build":
-        build(args.project)
+        build(args.project, args.theme)
     elif args.command == "preflight":
         errors, _ = preflight(args.project)
         raise SystemExit(1 if errors else 0)

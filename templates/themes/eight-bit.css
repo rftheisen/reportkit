@@ -1,0 +1,246 @@
+/*
+ * 8-bit game theme.
+ * Load after templates/theme.css so these declarations act as an override.
+ */
+
+:root {
+  --ink: #17122b;
+  --soft: #51486f;
+  --line: #241a43;
+  --paper: #fffdf2;
+  --panel: #f3edff;
+  --navy: #211640;
+  --navy-2: #37245d;
+  --cyan: #00c8d7;
+  --blue: #315cce;
+  --green: #168c4d;
+  --terminal: #130d25;
+  --terminal-ink: #a7ff83;
+  --critical: #d51f4c;
+  --high: #e05a1f;
+  --medium: #927000;
+  --low: #205ec2;
+  --info: #625b74;
+  --pixel-pink: #ff4fa3;
+  --pixel-yellow: #ffd84d;
+  --pixel-cyan: #31e6e9;
+  --pixel-green: #73e875;
+}
+
+html { font-size: 10.2pt; }
+
+body {
+  background: #fffdf2;
+  font-family: "DejaVu Sans Mono", "Liberation Mono", Consolas, monospace;
+  line-height: 1.52;
+}
+
+h1, h2, h3, h4 {
+  font-family: "DejaVu Sans Mono", "Liberation Mono", Consolas, monospace;
+  letter-spacing: -.035em;
+}
+
+h2 {
+  padding: .42em .55em;
+  border: 3px solid var(--line);
+  background: var(--pixel-cyan);
+  box-shadow: 5px 5px 0 var(--line);
+  color: #17122b;
+  font-size: 16pt;
+  text-transform: uppercase;
+}
+
+h2::before {
+  width: .7em;
+  height: .7em;
+  margin-right: .55em;
+  border: 2px solid var(--line);
+  border-radius: 0;
+  background: var(--pixel-yellow);
+  box-shadow: 3px 3px 0 var(--line);
+}
+
+h3 {
+  color: #2b2050;
+  font-size: 12.2pt;
+}
+
+h3[id^="f-"] {
+  padding: .7em .8em;
+  border: 3px solid #17122b;
+  border-left: 10px solid var(--pixel-pink);
+  border-radius: 0;
+  background: #2a1b4d;
+  box-shadow: 5px 5px 0 var(--pixel-cyan);
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #000000;
+}
+
+.cover {
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgba(49,230,233,.15) 48% 52%, transparent 52%),
+    linear-gradient(transparent 0 48%, rgba(255,79,163,.12) 48% 52%, transparent 52%),
+    linear-gradient(145deg, #120a27, #251445 55%, #0b3450);
+  background-size: 32px 32px, 32px 32px, auto;
+}
+
+.cover::before {
+  position: absolute;
+  top: 13mm;
+  left: 22mm;
+  z-index: 2;
+  padding: 2mm 4mm;
+  border: 3px solid var(--pixel-yellow);
+  background: #17122b;
+  box-shadow: 5px 5px 0 var(--pixel-pink);
+  color: #ffffff;
+  content: "PLAYER 1 // SECURITY MODE";
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.cover::after {
+  opacity: .2;
+  background-image:
+    linear-gradient(90deg, #fff 2px, transparent 2px),
+    linear-gradient(#fff 2px, transparent 2px);
+  background-size: 32px 32px;
+}
+
+.cover-kicker {
+  margin-top: 12mm;
+  color: var(--pixel-green);
+  font-size: 9pt;
+  letter-spacing: .18em;
+  text-shadow: 2px 2px 0 #000;
+}
+
+h1.cover-title {
+  max-width: 168mm;
+  padding: 7mm;
+  border: 4px solid #ffffff;
+  background: #211640;
+  box-shadow:
+    8px 8px 0 var(--pixel-pink),
+    16px 16px 0 var(--pixel-cyan);
+  color: #ffffff;
+  font-size: 35pt;
+  line-height: 1.15;
+  text-shadow: 4px 4px 0 #090512;
+  text-transform: uppercase;
+}
+
+.cover-client {
+  margin-top: 15mm;
+  color: var(--pixel-yellow);
+  font-size: 17pt;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.cover-client::before {
+  height: 7px;
+  border-radius: 0;
+  background: var(--pixel-green);
+  box-shadow: 12px 0 0 var(--pixel-cyan), 24px 0 0 var(--pixel-pink);
+}
+
+.cover-meta {
+  padding: 5mm;
+  border: 3px solid #ffffff;
+  background: rgba(23,18,43,.88);
+  box-shadow: 7px 7px 0 rgba(0,0,0,.5);
+  color: #ffffff;
+  line-height: 2;
+}
+
+.cover-meta strong { color: var(--pixel-cyan); }
+
+.cover-metrics {
+  border: 3px solid var(--pixel-green);
+  border-radius: 0;
+  background: #17122b;
+  box-shadow: 7px 7px 0 var(--pixel-pink);
+  color: #ffffff;
+}
+
+.cover-metrics strong {
+  color: var(--pixel-yellow);
+  text-shadow: 2px 2px 0 #000;
+}
+
+#toc-page {
+  padding: 7mm;
+  border: 3px solid var(--line);
+  box-shadow: inset 0 0 0 5px #fffdf2, inset 0 0 0 8px var(--pixel-cyan);
+}
+
+#toc-page > ul > li {
+  margin: .6em 0;
+}
+
+#toc-page > ul > li::before {
+  margin-right: .65em;
+  color: var(--pixel-pink);
+  content: "▶";
+}
+
+.sev {
+  border: 2px solid currentColor;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #17122b;
+  font-family: "DejaVu Sans Mono", monospace;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+table {
+  border: 3px solid var(--line);
+  box-shadow: 4px 4px 0 rgba(36,26,67,.2);
+}
+
+th, td {
+  border: 2px solid var(--line);
+}
+
+thead th {
+  border-color: #17122b;
+  background: #2a1b4d;
+  color: var(--pixel-yellow);
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) { background: #f1eaff; }
+
+code {
+  border: 1px solid #6d5b94;
+  border-radius: 0;
+  background: #eee7ff;
+  color: #392064;
+}
+
+pre {
+  border: 3px solid var(--pixel-cyan);
+  border-left: 8px solid var(--pixel-green);
+  border-radius: 0;
+  background: #130d25;
+  box-shadow: 5px 5px 0 var(--pixel-pink);
+  color: var(--terminal-ink);
+}
+
+pre::before {
+  color: var(--pixel-yellow);
+  content: "■ ■ ■";
+}
+
+blockquote {
+  border: 3px solid var(--line);
+  border-left: 9px solid var(--pixel-yellow);
+  border-radius: 0;
+  background: #f6f0ff;
+  box-shadow: 4px 4px 0 var(--pixel-cyan);
+}
+
+img {
+  image-rendering: pixelated;
+}

@@ -1,0 +1,192 @@
+/*
+ * Military science-fiction HUD theme.
+ * Load after templates/theme.css so these declarations act as an override.
+ */
+
+:root {
+  --ink: #13201f;
+  --soft: #4a5e5a;
+  --line: #adbbb5;
+  --paper: #f7faf6;
+  --panel: #eaf0e9;
+  --navy: #102c32;
+  --navy-2: #183e43;
+  --cyan: #53d8e8;
+  --blue: #237d9c;
+  --green: #6f8f46;
+  --terminal: #071d20;
+  --terminal-ink: #d7ffe8;
+  --critical: #d63b4f;
+  --high: #c66b21;
+  --medium: #807021;
+  --low: #257b95;
+  --info: #526961;
+  --hud-green: #b5db79;
+  --hud-cyan: #66e4ef;
+  --armor: #526345;
+}
+
+body {
+  background: #fbfcf8;
+  font-family: "DejaVu Sans", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: .01em;
+}
+
+h2 {
+  position: relative;
+  padding: .32em .7em;
+  border: 0;
+  background: linear-gradient(90deg, #102c32 0 76%, transparent);
+  color: #f2fff9;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+h2::before {
+  width: .38em;
+  height: .9em;
+  border-radius: 0;
+  background: var(--hud-green);
+  box-shadow: 8px 0 0 rgba(102, 228, 239, .35);
+}
+
+h3 {
+  color: #214d50;
+  letter-spacing: .035em;
+}
+
+h3[id^="f-"] {
+  border: 1px solid #50726c;
+  border-left: 7px solid var(--hud-green);
+  border-radius: 0;
+  background:
+    linear-gradient(135deg, transparent 0 12px, #112f34 12px) top left,
+    linear-gradient(315deg, transparent 0 12px, #183e43 12px) bottom right;
+  background-size: 55% 100%;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(102, 228, 239, .16);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.cover {
+  overflow: hidden;
+  background:
+    radial-gradient(700px 520px at 82% 23%, rgba(83, 216, 232, .22), transparent 58%),
+    radial-gradient(900px 720px at 8% 104%, rgba(111, 143, 70, .34), transparent 62%),
+    linear-gradient(148deg, #06181c 0 52%, #0d292d 52% 67%, #142f31 67%);
+}
+
+.cover::before {
+  position: absolute;
+  top: 15mm;
+  right: 18mm;
+  z-index: 2;
+  padding: 3mm 5mm;
+  border-top: 2px solid var(--hud-cyan);
+  border-right: 2px solid var(--hud-cyan);
+  color: rgba(181, 219, 121, .9);
+  content: "SECURITY OPERATIONS // AFTER ACTION";
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+.cover::after {
+  opacity: .18;
+  background-image:
+    linear-gradient(30deg, transparent 0 49%, rgba(102,228,239,.5) 49% 50%, transparent 50%),
+    linear-gradient(rgba(181,219,121,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(181,219,121,.22) 1px, transparent 1px);
+  background-size: 180px 180px, 34px 34px, 34px 34px;
+}
+
+.cover-kicker {
+  color: var(--hud-green);
+  letter-spacing: .34em;
+}
+
+h1.cover-title {
+  max-width: 165mm;
+  padding: 6mm 7mm;
+  border-left: 5px solid var(--hud-cyan);
+  background: linear-gradient(90deg, rgba(7,29,32,.82), rgba(7,29,32,.12));
+  color: #f5fff8;
+  font-size: 41pt;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.cover-client {
+  color: #d8f4e2;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.cover-client::before {
+  background: var(--hud-green);
+  box-shadow: 26px 0 0 var(--hud-cyan), 52px 0 0 rgba(102,228,239,.4);
+}
+
+.cover-meta {
+  max-width: 145mm;
+  padding: 5mm 6mm;
+  border: 1px solid rgba(102,228,239,.42);
+  border-left: 5px solid var(--armor);
+  background: rgba(5, 20, 23, .62);
+}
+
+.cover-meta strong { color: var(--hud-green); }
+
+.cover-metrics {
+  border: 1px solid var(--hud-cyan);
+  border-radius: 0;
+  background: rgba(10, 43, 45, .72);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+}
+
+.cover-metrics strong { color: var(--hud-green); }
+
+#toc-page {
+  border-top: 3px solid var(--armor);
+  background:
+    linear-gradient(90deg, rgba(83,216,232,.06), transparent 35%);
+}
+
+#toc-page > ul > li {
+  border-left: 3px solid var(--hud-green);
+  padding-left: .65em;
+  text-transform: uppercase;
+}
+
+thead th {
+  border-color: #244c4b;
+  background: linear-gradient(90deg, #173a3d, #29493f);
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) { background: #edf2ea; }
+
+blockquote {
+  border-radius: 0;
+  border-left-color: var(--armor);
+  background: linear-gradient(90deg, rgba(111,143,70,.13), rgba(83,216,232,.03));
+}
+
+pre {
+  border-radius: 0;
+  border-color: #3e6256;
+  border-left-color: var(--hud-green);
+  background:
+    linear-gradient(rgba(102,228,239,.035) 1px, transparent 1px),
+    #071d20;
+  background-size: 100% 5px;
+}
+
+.sev {
+  border-radius: 2px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}

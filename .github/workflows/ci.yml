@@ -20,6 +20,11 @@ jobs:
         run: ./scripts/reportkit preflight examples/fictional-assessment
       - name: Build example
         run: ./scripts/reportkit build examples/fictional-assessment
+      - name: Build themed examples
+        run: |
+          ./scripts/reportkit build examples/fictional-assessment --theme halo
+          ./scripts/reportkit build examples/fictional-assessment --theme eight-bit
+          ./scripts/reportkit build examples/fictional-assessment --theme cyberpunk
       - name: Upload generated report
         uses: actions/upload-artifact@v7
         with:

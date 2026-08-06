@@ -1,0 +1,347 @@
+/*
+ * Neon dystopian theme inspired by late-21st-century cyberpunk interfaces.
+ * This is an original ReportKit treatment and contains no game logos/artwork.
+ * Load after templates/theme.css so these declarations act as an override.
+ */
+
+:root {
+  --ink: #17181d;
+  --soft: #555964;
+  --line: #23262d;
+  --paper: #f5f0dc;
+  --panel: #e9e5d4;
+  --navy: #151820;
+  --navy-2: #292d37;
+  --cyan: #00d8e8;
+  --blue: #087d98;
+  --green: #12a575;
+  --terminal: #101218;
+  --terminal-ink: #e8ff39;
+  --critical: #e72b50;
+  --high: #ed602d;
+  --medium: #947100;
+  --low: #087d98;
+  --info: #5c6170;
+  --acid: #e8ff39;
+  --electric-cyan: #00e7f0;
+  --hot-magenta: #ff2e72;
+  --warning-red: #e72b50;
+  --void: #101218;
+}
+
+html { font-size: 10.3pt; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DejaVu Sans", "Liberation Sans", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+body::before {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  z-index: 10;
+  background: linear-gradient(90deg, var(--acid) 0 58%, var(--hot-magenta) 58% 76%, var(--electric-cyan) 76%);
+  content: "";
+}
+
+h1, h2, h3, h4 {
+  font-family: "DejaVu Sans", "Liberation Sans", Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+h2 {
+  position: relative;
+  margin-top: 1.55em;
+  padding: .48em .72em .42em 1.05em;
+  border: 0;
+  background: var(--void);
+  box-shadow: 8px 0 0 var(--acid), -4px 0 0 var(--hot-magenta);
+  color: #ffffff;
+  font-size: 17pt;
+  text-transform: uppercase;
+}
+
+h2::before {
+  width: .62em;
+  height: .62em;
+  margin-right: .65em;
+  border: 2px solid var(--acid);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: inset 3px -3px 0 var(--hot-magenta);
+  transform: skew(-12deg);
+}
+
+h2::after {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  width: 38px;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, var(--electric-cyan) 0 5px, transparent 5px 8px);
+  content: "";
+}
+
+h3 {
+  color: #272a31;
+  font-size: 12.8pt;
+}
+
+h3[id^="f-"] {
+  position: relative;
+  padding: .72em 1em .65em 1.15em;
+  border: 0;
+  border-left: 8px solid var(--acid);
+  border-radius: 0;
+  background: linear-gradient(96deg, #15171d 0 82%, #292d35 82%);
+  box-shadow: 5px 5px 0 rgba(0, 216, 232, .55);
+  color: #ffffff;
+  font-size: 13pt;
+  text-transform: uppercase;
+}
+
+h3[id^="f-"]::after {
+  position: absolute;
+  right: 9px;
+  bottom: 7px;
+  color: var(--hot-magenta);
+  content: "// RISK DATA";
+  font: 700 6.5pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .12em;
+}
+
+h4 {
+  padding-left: .55em;
+  border-left: 4px solid var(--hot-magenta);
+  color: #292d35;
+  text-transform: uppercase;
+}
+
+.cover {
+  overflow: hidden;
+  background:
+    linear-gradient(118deg, transparent 0 62%, rgba(0,231,240,.12) 62% 62.5%, transparent 62.5%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 6px),
+    radial-gradient(850px 440px at 105% 5%, rgba(255,46,114,.38), transparent 55%),
+    radial-gradient(740px 500px at -15% 105%, rgba(0,231,240,.25), transparent 58%),
+    linear-gradient(145deg, #101218 0 55%, #171a22 55% 100%);
+}
+
+.cover::before {
+  position: absolute;
+  top: 14mm;
+  left: 22mm;
+  z-index: 3;
+  padding: 2mm 5mm 2mm 3mm;
+  border-left: 8px solid var(--hot-magenta);
+  background: var(--acid);
+  box-shadow: 6px 6px 0 rgba(0,231,240,.85);
+  color: #101218;
+  content: "NEON GRID // OFFENSIVE SECURITY DIVISION";
+  font: 900 7.5pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .08em;
+  transform: skew(-7deg);
+}
+
+.cover::after {
+  opacity: .18;
+  background-image:
+    linear-gradient(rgba(0,231,240,.65) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,231,240,.65) 1px, transparent 1px);
+  background-size: 24px 24px;
+  clip-path: polygon(56% 0, 100% 0, 100% 100%, 72% 100%);
+}
+
+.cover-kicker {
+  display: inline-block;
+  margin-top: 11mm;
+  margin-bottom: 10mm;
+  padding: 1.5mm 3mm;
+  border: 1px solid var(--electric-cyan);
+  background: rgba(0,231,240,.08);
+  color: var(--electric-cyan);
+  font: 700 8.8pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .18em;
+}
+
+h1.cover-title {
+  max-width: 170mm;
+  margin-left: -2mm;
+  padding: 6mm 7mm 7mm;
+  border: 0;
+  border-left: 11px solid var(--acid);
+  background: rgba(16,18,24,.88);
+  box-shadow:
+    9px 9px 0 var(--hot-magenta),
+    17px 17px 0 rgba(0,231,240,.8);
+  color: #ffffff;
+  font-size: 39pt;
+  font-style: italic;
+  letter-spacing: -.06em;
+  line-height: 1.02;
+  text-transform: uppercase;
+}
+
+.cover-client {
+  margin-top: 17mm;
+  margin-bottom: 22mm;
+  color: var(--acid);
+  font-size: 18pt;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.cover-client::before {
+  width: 82px;
+  height: 5px;
+  border-radius: 0;
+  background: var(--hot-magenta);
+  box-shadow: 17px 0 0 var(--acid), 34px 0 0 var(--electric-cyan);
+  transform: skew(-25deg);
+}
+
+.cover-meta {
+  width: 105mm;
+  padding: 4mm 5mm;
+  border: 1px solid rgba(0,231,240,.6);
+  border-left: 5px solid var(--electric-cyan);
+  background: rgba(10,12,16,.84);
+  color: #e8ebf0;
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 9.2pt;
+  line-height: 1.85;
+}
+
+.cover-meta strong { color: var(--hot-magenta); }
+
+.cover-metrics {
+  border: 0;
+  border-left: 6px solid var(--acid);
+  border-radius: 0;
+  background: rgba(232,255,57,.1);
+  box-shadow: 5px 5px 0 rgba(255,46,114,.75);
+  color: #ffffff;
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+.cover-metrics strong {
+  color: var(--acid);
+  font-size: 14pt;
+}
+
+#toc-page {
+  padding: 7mm;
+  border: 2px solid var(--line);
+  border-top: 9px solid var(--acid);
+  background:
+    linear-gradient(135deg, transparent 0 93%, var(--hot-magenta) 93%),
+    #f5f0dc;
+  box-shadow: 6px 6px 0 rgba(0,216,232,.6);
+}
+
+#toc-page > ul > li {
+  margin: .58em 0;
+  padding-left: .75em;
+  border-left: 3px solid var(--hot-magenta);
+}
+
+#toc-page > ul > li::before {
+  margin-right: .6em;
+  color: var(--electric-cyan);
+  content: "//";
+  font-family: "DejaVu Sans Mono", monospace;
+  font-weight: 800;
+}
+
+.sev {
+  border: 1px solid currentColor;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 rgba(16,18,24,.85);
+  font-family: "DejaVu Sans Mono", monospace;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transform: skew(-4deg);
+}
+
+table {
+  border: 2px solid var(--line);
+  box-shadow: 5px 5px 0 rgba(0,216,232,.25);
+}
+
+th, td { border: 1px solid #666a72; }
+
+thead th {
+  border-color: var(--void);
+  border-bottom: 4px solid var(--acid);
+  background: var(--void);
+  color: #ffffff;
+  font-family: "DejaVu Sans Mono", monospace;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) { background: #e8e3d0; }
+
+code {
+  border: 1px solid #a5a84e;
+  border-radius: 0;
+  background: #eef2bf;
+  color: #272a20;
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+pre {
+  position: relative;
+  border: 1px solid var(--electric-cyan);
+  border-top: 7px solid var(--acid);
+  border-left: 7px solid var(--hot-magenta);
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 5px),
+    var(--terminal);
+  box-shadow: 6px 6px 0 rgba(0,216,232,.55);
+  color: var(--terminal-ink);
+}
+
+pre::before {
+  color: var(--hot-magenta);
+  content: "SYS.LOG // LIVE FEED";
+  font-family: "DejaVu Sans Mono", monospace;
+  letter-spacing: .08em;
+}
+
+blockquote {
+  border: 0;
+  border-left: 8px solid var(--hot-magenta);
+  border-radius: 0;
+  background: #e7e2cf;
+  box-shadow: 5px 5px 0 var(--acid);
+}
+
+blockquote::before {
+  color: var(--hot-magenta);
+  content: "!";
+  font: 900 22pt "DejaVu Sans Mono", monospace;
+}
+
+hr {
+  height: 4px;
+  border: 0;
+  background: linear-gradient(90deg, var(--hot-magenta) 0 18%, var(--acid) 18% 72%, var(--electric-cyan) 72%);
+}
+
+img {
+  border: 2px solid var(--void);
+  box-shadow: 7px 7px 0 rgba(255,46,114,.45);
+}
+
+footer, .footer {
+  font-family: "DejaVu Sans Mono", monospace;
+}

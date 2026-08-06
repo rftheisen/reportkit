@@ -26,13 +26,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes pandoc weasyprint python3-yaml
       - name: Build example report
-        run: ./scripts/reportkit build examples/fictional-assessment
+        run: |
+          ./scripts/reportkit build examples/fictional-assessment
+          ./scripts/reportkit build examples/fictional-assessment --theme halo
+          ./scripts/reportkit build examples/fictional-assessment --theme eight-bit
+          ./scripts/reportkit build examples/fictional-assessment --theme cyberpunk
       - name: Assemble site
         run: |
           mkdir -p _site/downloads
           cp -a site/. _site/
-          cp examples/fictional-assessment/_build/northstar-security-assessment.pdf _site/downloads/
-          cp examples/fictional-assessment/_build/northstar-security-assessment.html _site/downloads/
+          cp examples/fictional-assessment/_build/*.pdf _site/downloads/
+          cp examples/fictional-assessment/_build/*.html _site/downloads/
           touch _site/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@v5
