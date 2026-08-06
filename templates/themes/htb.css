@@ -1,0 +1,357 @@
+/*
+ * Hack The Box-inspired operator theme.
+ * This original treatment uses a dark lab-console palette and contains no
+ * third-party logos, marks, or artwork. Load after templates/theme.css.
+ */
+
+:root {
+  --ink: #202837;
+  --soft: #59677c;
+  --line: #263348;
+  --paper: #f4f7f5;
+  --panel: #e9efe9;
+  --navy: #111927;
+  --navy-2: #1a2332;
+  --cyan: #9fef00;
+  --blue: #2e66f2;
+  --green: #69c900;
+  --terminal: #111927;
+  --terminal-ink: #c8f781;
+  --critical: #e2414c;
+  --high: #ed7d31;
+  --medium: #a27a00;
+  --low: #2e66f2;
+  --info: #64748b;
+  --htb-green: #9fef00;
+  --htb-green-dark: #6aa500;
+  --htb-black: #0b111d;
+  --htb-slate: #111927;
+  --htb-panel: #1a2332;
+  --htb-text: #a4b1cd;
+  --htb-white: #f5f7fb;
+}
+
+html { font-size: 10.3pt; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DejaVu Sans", "Liberation Sans", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+body::before {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  height: 3px;
+  background: var(--htb-green);
+  content: "";
+}
+
+h1, h2, h3, h4 {
+  font-family: "DejaVu Sans", "Liberation Sans", Arial, sans-serif;
+  letter-spacing: -.025em;
+}
+
+h2 {
+  position: relative;
+  margin-top: 1.5em;
+  padding: .52em .75em .48em 1em;
+  border: 0;
+  border-left: 7px solid var(--htb-green);
+  background: var(--htb-slate);
+  color: var(--htb-white);
+  font-size: 17pt;
+  text-transform: uppercase;
+}
+
+h2::before {
+  width: .55em;
+  height: .55em;
+  margin-right: .65em;
+  border: 2px solid var(--htb-green);
+  border-radius: 0;
+  background: transparent;
+  transform: rotate(45deg);
+}
+
+h2::after {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  color: #526077;
+  content: "[ SEC.REPORT ]";
+  font: 700 6.5pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .08em;
+}
+
+h3 {
+  color: var(--htb-slate);
+  font-size: 12.8pt;
+}
+
+h3[id^="f-"] {
+  position: relative;
+  padding: .72em 1em .68em 1.15em;
+  border: 1px solid #303d52;
+  border-left: 8px solid var(--htb-green);
+  border-radius: 0;
+  background: var(--htb-panel);
+  box-shadow: 5px 5px 0 rgba(159,239,0,.34);
+  color: var(--htb-white);
+}
+
+h3[id^="f-"]::after {
+  position: absolute;
+  right: 10px;
+  bottom: 7px;
+  color: var(--htb-green);
+  content: "// OWN THE RISK";
+  font: 700 6.2pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .1em;
+}
+
+h4 {
+  padding-left: .6em;
+  border-left: 4px solid var(--htb-green);
+  color: #2a3547;
+  text-transform: uppercase;
+}
+
+.cover {
+  overflow: hidden;
+  background:
+    radial-gradient(750px 480px at 92% 10%, rgba(159,239,0,.16), transparent 62%),
+    radial-gradient(700px 520px at -10% 105%, rgba(46,102,242,.14), transparent 62%),
+    repeating-linear-gradient(0deg, rgba(164,177,205,.025) 0 1px, transparent 1px 5px),
+    linear-gradient(145deg, #0b111d 0 58%, #111927 58% 100%);
+}
+
+.cover::before {
+  position: absolute;
+  top: 15mm;
+  left: 22mm;
+  z-index: 3;
+  padding: 2.2mm 4mm;
+  border: 1px solid var(--htb-green);
+  border-left: 7px solid var(--htb-green);
+  background: rgba(17,25,39,.94);
+  box-shadow: 5px 5px 0 rgba(159,239,0,.22);
+  color: var(--htb-green);
+  content: "OFFENSIVE SECURITY // LAB OPERATIONS";
+  font: 700 7.5pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .1em;
+}
+
+.cover::after {
+  opacity: .14;
+  background-image:
+    linear-gradient(rgba(159,239,0,.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159,239,0,.55) 1px, transparent 1px);
+  background-size: 28px 28px;
+  clip-path: polygon(54% 0, 100% 0, 100% 100%, 67% 100%);
+}
+
+.cover-kicker {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 12mm;
+  margin-bottom: 11mm;
+  color: var(--htb-green);
+  font: 700 9pt "DejaVu Sans Mono", monospace;
+  letter-spacing: .17em;
+}
+
+.cover-kicker::before {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border: 2px solid var(--htb-green);
+  content: "";
+  transform: rotate(45deg);
+}
+
+h1.cover-title {
+  max-width: 166mm;
+  padding: 7mm 8mm;
+  border: 1px solid #344158;
+  border-left: 10px solid var(--htb-green);
+  background: rgba(17,25,39,.92);
+  box-shadow: 9px 9px 0 rgba(159,239,0,.22);
+  color: var(--htb-white);
+  font-size: 40pt;
+  letter-spacing: -.04em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.cover-client {
+  margin-top: 14mm;
+  margin-bottom: 24mm;
+  color: var(--htb-white);
+  font: 700 18pt "DejaVu Sans Mono", monospace;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
+
+.cover-client::before {
+  width: 76px;
+  height: 5px;
+  border-radius: 0;
+  background: var(--htb-green);
+  box-shadow: 18px 0 0 rgba(159,239,0,.55), 36px 0 0 rgba(159,239,0,.25);
+}
+
+.cover-meta {
+  position: relative;
+  width: 110mm;
+  padding: 4.5mm 5mm;
+  border: 1px solid #344158;
+  border-left: 5px solid var(--htb-green);
+  background: rgba(11,17,29,.88);
+  color: var(--htb-text);
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 9.3pt;
+  line-height: 1.85;
+}
+
+.cover-meta strong { color: var(--htb-green); }
+
+.cover-meta::after {
+  position: absolute;
+  top: -1mm;
+  right: -43mm;
+  width: 29mm;
+  height: 26mm;
+  border: 1px solid var(--htb-green);
+  background:
+    url("assets/ltnbobface.png") center / contain no-repeat,
+    var(--htb-slate);
+  box-shadow: 5px 5px 0 rgba(159,239,0,.22);
+  content: "";
+  image-rendering: pixelated;
+}
+
+.cover-metrics {
+  border: 1px solid rgba(159,239,0,.52);
+  border-radius: 0;
+  background: rgba(26,35,50,.9);
+  box-shadow: 6px 6px 0 rgba(159,239,0,.2);
+  color: var(--htb-text);
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+.cover-metrics strong {
+  color: var(--htb-green);
+  font-size: 14pt;
+}
+
+#toc-page {
+  padding: 7mm;
+  border: 1px solid #aeb9c6;
+  border-top: 8px solid var(--htb-green);
+  background:
+    linear-gradient(135deg, transparent 0 94%, rgba(159,239,0,.28) 94%),
+    #f4f7f5;
+  box-shadow: 6px 6px 0 rgba(17,25,39,.15);
+}
+
+#toc-page > ul > li {
+  margin: .58em 0;
+  padding-left: .75em;
+  border-left: 3px solid var(--htb-green-dark);
+}
+
+#toc-page > ul > li::before {
+  margin-right: .65em;
+  color: var(--htb-green-dark);
+  content: ">_";
+  font-family: "DejaVu Sans Mono", monospace;
+  font-weight: 800;
+}
+
+.sev {
+  border: 1px solid currentColor;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 rgba(17,25,39,.85);
+  font-family: "DejaVu Sans Mono", monospace;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+table {
+  border: 2px solid var(--htb-slate);
+  box-shadow: 5px 5px 0 rgba(159,239,0,.18);
+}
+
+th, td { border: 1px solid #748197; }
+
+thead th {
+  border-color: var(--htb-slate);
+  border-bottom: 4px solid var(--htb-green);
+  background: var(--htb-slate);
+  color: var(--htb-white);
+  font-family: "DejaVu Sans Mono", monospace;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) { background: #e8eee8; }
+
+code {
+  border: 1px solid #9cb965;
+  border-radius: 0;
+  background: #e8f3d5;
+  color: #29361d;
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+pre {
+  border: 1px solid #344158;
+  border-top: 7px solid var(--htb-green);
+  border-left: 7px solid #344158;
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(164,177,205,.025) 0 1px, transparent 1px 5px),
+    var(--terminal);
+  box-shadow: 6px 6px 0 rgba(159,239,0,.26);
+  color: var(--terminal-ink);
+}
+
+pre::before {
+  color: var(--htb-green);
+  content: "root@reportkit:~#";
+  font-family: "DejaVu Sans Mono", monospace;
+  letter-spacing: .05em;
+}
+
+blockquote {
+  border: 1px solid #bcc7d2;
+  border-left: 8px solid var(--htb-green-dark);
+  border-radius: 0;
+  background: #e9efe9;
+  box-shadow: 5px 5px 0 rgba(159,239,0,.22);
+}
+
+blockquote::before {
+  color: var(--htb-green-dark);
+  content: ">";
+  font: 900 21pt "DejaVu Sans Mono", monospace;
+}
+
+hr {
+  height: 4px;
+  border: 0;
+  background: linear-gradient(90deg, var(--htb-green) 0 72%, var(--htb-slate) 72%);
+}
+
+img {
+  border: 2px solid var(--htb-slate);
+  box-shadow: 7px 7px 0 rgba(159,239,0,.24);
+}
+
+footer, .footer { font-family: "DejaVu Sans Mono", monospace; }

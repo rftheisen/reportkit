@@ -11,6 +11,10 @@ standard ReportKit document structure.
   shadows, high-contrast status colors, and square interface components.
 - `cyberpunk.css` — original neon-dystopian styling with acid yellow, cyan,
   magenta, hard-edged warning panels, scan lines, and glitch-like accents.
+- `htb.css` — Hack The Box-inspired operator styling with near-black lab
+  consoles, electric green status rails, terminal grids, and sharp brackets.
+  Its cover includes the project author's `assets/ltnbobface.png` operator
+  signature as a small Easter egg.
 
 ## Render a themed report
 
@@ -30,5 +34,6 @@ pandoc PROJECT/_build/REPORT.merged.md \
   --output=PROJECT/_build/report-halo.html
 ```
 
-Replace `halo.css` with `eight-bit.css` or `cyberpunk.css` for the other
-variants. ReportKit's standard preflight should still be run before rendering.
+Replace `halo.css` with `eight-bit.css`, `cyberpunk.css`, or `htb.css` for the
+other variants. ReportKit's standard preflight should still be run before
+rendering.

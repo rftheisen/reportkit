@@ -91,6 +91,7 @@ Build with one of the included visual themes:
 ./scripts/reportkit build path/to/project --theme halo
 ./scripts/reportkit build path/to/project --theme eight-bit
 ./scripts/reportkit build path/to/project --theme cyberpunk
+./scripts/reportkit build path/to/project --theme htb
 ```
 
 The themed outputs receive a matching suffix, so they can coexist with the
@@ -150,6 +151,7 @@ ReportKit also includes three optional style overrides under
 - `halo` — military science-fiction HUD styling;
 - `eight-bit` — colorful retro-game styling;
 - `cyberpunk` — neon-dystopian warning-interface styling.
+- `htb` — dark offensive-security lab styling with electric green telemetry.
 
 Each is an original visual treatment and does not include third-party logos or
 artwork. New themes can follow the same override pattern documented in

@@ -25,6 +25,7 @@ jobs:
           ./scripts/reportkit build examples/fictional-assessment --theme halo
           ./scripts/reportkit build examples/fictional-assessment --theme eight-bit
           ./scripts/reportkit build examples/fictional-assessment --theme cyberpunk
+          ./scripts/reportkit build examples/fictional-assessment --theme htb
       - name: Upload generated report
         uses: actions/upload-artifact@v7
         with:

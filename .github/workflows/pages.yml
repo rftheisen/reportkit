@@ -31,6 +31,7 @@ jobs:
           ./scripts/reportkit build examples/fictional-assessment --theme halo
           ./scripts/reportkit build examples/fictional-assessment --theme eight-bit
           ./scripts/reportkit build examples/fictional-assessment --theme cyberpunk
+          ./scripts/reportkit build examples/fictional-assessment --theme htb
       - name: Assemble site
         run: |
           mkdir -p _site/downloads
