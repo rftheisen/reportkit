@@ -85,6 +85,18 @@ Build HTML and PDF:
 ./scripts/reportkit build path/to/project
 ```
 
+Build with one of the included visual themes:
+
+```bash
+./scripts/reportkit build path/to/project --theme halo
+./scripts/reportkit build path/to/project --theme eight-bit
+./scripts/reportkit build path/to/project --theme cyberpunk
+```
+
+The themed outputs receive a matching suffix, so they can coexist with the
+default report in `_build/`. For example, `--theme cyberpunk` produces
+`report-name-cyberpunk.html` and `report-name-cyberpunk.pdf`.
+
 Run delivery checks without building:
 
 ```bash
@@ -131,6 +143,17 @@ confirm the distribution rules for the assessment material.
 Edit `templates/theme.css` for typography and print design. Edit
 `templates/report.html` for the cover and page structure. The template uses
 Pandoc variables from the project's `report.yml`.
+
+ReportKit also includes three optional style overrides under
+`templates/themes/`:
+
+- `halo` — military science-fiction HUD styling;
+- `eight-bit` — colorful retro-game styling;
+- `cyberpunk` — neon-dystopian warning-interface styling.
+
+Each is an original visual treatment and does not include third-party logos or
+artwork. New themes can follow the same override pattern documented in
+`templates/themes/README.md`.
 
 The CSS is designed for A4 output. Change the `@page` size and margins if your
 delivery standard requires Letter paper.

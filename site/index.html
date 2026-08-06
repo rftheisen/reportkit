@@ -24,6 +24,7 @@
       </a>
       <div class="nav-links">
         <a href="#workflow">Workflow</a>
+        <a href="#themes">Themes</a>
         <a href="#features">Features</a>
         <a class="nav-github" href="https://github.com/rftheisen/reportkit">View on GitHub <span aria-hidden="true">↗</span></a>
       </div>
@@ -108,6 +109,89 @@
           <p>Generate a self-contained HTML report and a polished, paginated PDF.</p>
           <code>reportkit build assessment/</code>
         </article>
+      </div>
+    </section>
+
+    <section class="section themes-section" id="themes">
+      <div class="shell">
+        <div class="section-heading themes-heading">
+          <div>
+            <div class="eyebrow"><span></span> Style library</div>
+            <h2>One report.<br>Four distinct moods.</h2>
+          </div>
+          <p>
+            Keep the content stable and choose the visual language that fits
+            the engagement. Every theme produces the same self-contained HTML
+            and print-ready PDF deliverables.
+          </p>
+        </div>
+
+        <div class="theme-grid">
+          <article class="theme-card theme-default">
+            <a class="theme-preview" href="downloads/northstar-security-assessment.html">
+              <img src="assets/report-cover.jpg" alt="Default ReportKit report cover">
+            </a>
+            <div class="theme-card-body">
+              <div><span class="theme-number">01</span><span class="theme-label">Default</span></div>
+              <h3>Executive clarity</h3>
+              <p>Clean, restrained, and ready for conventional client delivery.</p>
+              <div class="theme-links">
+                <a href="downloads/northstar-security-assessment.html">HTML preview</a>
+                <a href="downloads/northstar-security-assessment.pdf">PDF</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="theme-card theme-halo">
+            <a class="theme-preview" href="downloads/northstar-security-assessment-halo.html">
+              <img src="assets/report-cover-halo.jpg" alt="Military science-fiction HUD report cover">
+            </a>
+            <div class="theme-card-body">
+              <div><span class="theme-number">02</span><span class="theme-label">Halo</span></div>
+              <h3>Tactical HUD</h3>
+              <p>Military science-fiction panels, instrumentation, and angular accents.</p>
+              <div class="theme-links">
+                <a href="downloads/northstar-security-assessment-halo.html">HTML preview</a>
+                <a href="downloads/northstar-security-assessment-halo.pdf">PDF</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="theme-card theme-eight-bit">
+            <a class="theme-preview" href="downloads/northstar-security-assessment-eight-bit.html">
+              <img src="assets/report-cover-eight-bit.jpg" alt="Colorful 8-bit game report cover">
+            </a>
+            <div class="theme-card-body">
+              <div><span class="theme-number">03</span><span class="theme-label">8-bit</span></div>
+              <h3>Arcade mode</h3>
+              <p>Pixel-like typography, block shadows, and high-contrast game UI cues.</p>
+              <div class="theme-links">
+                <a href="downloads/northstar-security-assessment-eight-bit.html">HTML preview</a>
+                <a href="downloads/northstar-security-assessment-eight-bit.pdf">PDF</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="theme-card theme-cyberpunk">
+            <a class="theme-preview" href="downloads/northstar-security-assessment-cyberpunk.html">
+              <img src="assets/report-cover-cyberpunk.jpg" alt="Neon-dystopian cyberpunk report cover">
+            </a>
+            <div class="theme-card-body">
+              <div><span class="theme-number">04</span><span class="theme-label">Cyberpunk</span></div>
+              <h3>Neon dossier</h3>
+              <p>Acid warnings, cyan telemetry, and magenta glitch accents.</p>
+              <div class="theme-links">
+                <a href="downloads/northstar-security-assessment-cyberpunk.html">HTML preview</a>
+                <a href="downloads/northstar-security-assessment-cyberpunk.pdf">PDF</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="theme-command">
+          <span>Choose at build time</span>
+          <code>./scripts/reportkit build assessment/ --theme cyberpunk</code>
+        </div>
       </div>
     </section>
 
